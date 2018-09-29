@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const router = express.Router();
-const morgan  = require('morgan');
+const morgan = require('morgan');
 const http = require('http');
 
 app.use(morgan('dev'));
@@ -22,9 +22,9 @@ app.use(morgan('dev'));
 //     return res.status(200);
 // });
 
-app.get('/',function(req,res){
-    //res.send("Hello");
-    res.sendfile('index.html',{root:__dirname+"/pages"});
-})
+app.get('/', function(req, res) {
+  //res.send("Hello");
+  res.sendfile('index.html', { root: __dirname + '/pages' });
+});
 
-app.listen(3000, ()=>console.log("Listening on 3000!"));
+app.listen(3000, () => console.log('Listening on 3000!'));
