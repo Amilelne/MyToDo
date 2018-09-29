@@ -4,6 +4,8 @@ const path = require('path');
 const morgan = require('morgan');
 const cors = require('cors');
 
+const routes = require('./routes/index.route');
+
 app.use(morgan('dev'));
 
 // using cors package allow easier to control
@@ -23,7 +25,7 @@ app.use(cors());
 
 // define SPA directory before serve
 // use path.join() or path.resolve() for better controllable and cross platform affect
-const appDir = path.join(__dirname, 'pages');
+const appDir = path.join(__dirname, '../pages');
 
 // serve static path. this is serve SPA requirements (resource path in this case)
 app.use(express.static(appDir));
@@ -37,10 +39,6 @@ app.use(/^((?!(api)).)*/, function(req, res) {
 });
 
 // api serve
-app.get('/api/todos', (req, res, next) => {
-  const page = 'Hello';
-  res.end(page);
-  return res.status(200);
-});
+app.use('/api', routes);
 
-app.listen(3000, () => console.log('Listening on 3000!'));
+module.exports = app;
