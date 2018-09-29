@@ -2,9 +2,15 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const morgan = require('morgan');
+const cors = require('cors');
 
 app.use(morgan('dev'));
 
+// using cors package allow easier to control
+// cross origin resource sharing
+app.use(cors());
+
+// setting header is the right option. But will make confused when the app scale
 // app.use((req, res, next) => {
 //     res.header('Access-Control-Allow-Origin', '*');
 //     res.header('Access-Control-Allow-Headers', 'Origin,X-REquested-with,Content-Type,Accept,Authorization');
