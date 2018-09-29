@@ -1,8 +1,7 @@
 const express = require('express');
 const app = express();
-const router = express.Router();
+const path = require('path');
 const morgan = require('morgan');
-const http = require('http');
 
 app.use(morgan('dev'));
 
@@ -16,15 +15,26 @@ app.use(morgan('dev'));
 //     next();
 // })
 
-// app.use('/api/todos',(req,res,next) => {
-//     const page = "Hello";
-//     res.end(page);
-//     return res.status(200);
-// });
+// define SPA directory before serve
+// use path.join() or path.resolve() for better controllable and cross platform affect
+const appDir = path.join(__dirname, 'pages');
 
-app.get('/', function(req, res) {
-  //res.send("Hello");
-  res.sendfile('index.html', { root: __dirname + '/pages' });
+// serve static path. this is serve SPA requirements (resource path in this case)
+app.use(express.static(appDir));
+// serve static SPA index.html if request files not exists in static directory,
+// and request path is not /api
+// this behaviour call HistoryAPIFallback
+app.use(/^((?!(api)).)*/, function(req, res) {
+  res.sendFile(path.join(appDir, 'index.html'));
+  //   This also work, but for routing SPA like Reactjs or Angular, use option below
+  //   res.redirect('/');
+});
+
+// api serve
+app.get('/api/todos', (req, res, next) => {
+  const page = 'Hello';
+  res.end(page);
+  return res.status(200);
 });
 
 app.listen(3000, () => console.log('Listening on 3000!'));
