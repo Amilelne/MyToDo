@@ -3,6 +3,7 @@ const app = express();
 const path = require('path');
 const morgan = require('morgan');
 const cors = require('cors');
+const bodyParser = require("body-parser");
 
 const routes = require('./routes/index.route');
 
@@ -11,6 +12,12 @@ app.use(morgan('dev'));
 // using cors package allow easier to control
 // cross origin resource sharing
 app.use(cors());
+
+// using body-parse to get params in body
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
+app.use(bodyParser.json());
 
 // setting header is the right option. But will make confused when the app scale
 // app.use((req, res, next) => {
@@ -33,9 +40,9 @@ app.use(express.static(appDir));
 // and request path is not /api
 // this behaviour call HistoryAPIFallback
 app.use(/^((?!(api)).)*/, function(req, res) {
-  res.sendFile(path.join(appDir, 'index.html'));
+  //res.sendFile(path.join(appDir, 'index.html'));
   //   This also work, but for routing SPA like Reactjs or Angular, use option below
-  //   res.redirect('/');
+    res.redirect('/');
 });
 
 // api serve
