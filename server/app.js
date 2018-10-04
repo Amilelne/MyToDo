@@ -13,7 +13,7 @@ app.use(morgan('dev'));
 // cross origin resource sharing
 app.use(cors());
 
-// using body-parse to get params in body
+// using body-parse to get params in request body
 app.use(bodyParser.urlencoded({
   extended: true
 }));
