@@ -42,11 +42,11 @@
   <nav class="navbar navbar-expand-lg navbar-light rounded-bottom" style="background-color: #c53d2f">
     <form class="form-inline">
           <div class="input-group m-2 shadow-sm">
-              <input type="text" class="form-control" placeholder="Enter an activity..." id="item" aria-label="Activity" aria-describedby="basic-addon1">
-              <div class="input-group-append" id="add">
-                  <span class="input-group-text">Add</span>
+              <input type="text" class="form-control" placeholder="Enter an activity..." id="item" name="item" />
+              <div class="input-group-append" id="addTodo">
+                <span class="input-group-text">Add</span>
               </div>
-            </div>
+          </div>
             <button type="button" class="btn bg-transparent ml-5" onclick="user_login();show()">
                 <i class="far fa-user fa-2x"></i>
             </button>
@@ -85,7 +85,6 @@
         id="completed">
     </ul>
   </div>
-  <script src="resource/js/main.js"></script>
 </body>
 
 </html>

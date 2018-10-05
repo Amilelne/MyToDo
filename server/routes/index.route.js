@@ -22,6 +22,20 @@ router.get('/todos', (req, res) => {
   return res.status(200);
 });
 
+router.post('/todos', multipartMiddleware,(req,res) => {
+  console.log(req.body);
+  var username = req.body.username;
+  var item = req.body.item;
+  for(var i=0;i<users.length;i++){
+    if(username == users[i].username){
+      users[i].todos.push(item);
+      console.log(users[i]);
+      break;
+    }
+  }
+  return res.status(200);
+});
+
 router.post('/signin',multipartMiddleware, (req, res) => {
   console.log(req.body);
   var username = req.body.username;
@@ -61,7 +75,10 @@ router.post('/signup',multipartMiddleware, (req, res) => {
   else{
     //password = md5(password);
     var userId = uuid.v1();
-    users.push({userId, username, password});
+    var todos = [];
+    var completes = [];
+    users.push({userId, username, password, todos, completes});
+    console.log(users);
     res.send('success, please login');
   }
   return res.status(200);
