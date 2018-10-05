@@ -1,33 +1,32 @@
-const express = require('express');
+const express = require("express");
 
 const router = express.Router();
 
-const multipart = require('connect-multiparty');
-var multipartMiddleware= multipart();
-
+const multipart = require("connect-multiparty");
+var multipartMiddleware = multipart();
 
 // md5 encode password
-const md5 = require('../md5');
+const md5 = require("../md5");
 
 // generate unique user id
-const uuid = require('node-uuid');
+const uuid = require("node-uuid");
 
 // userInfo array
 var users = [];
 
 // dummy get /todos api
-router.get('/todos', (req, res) => {
-  const page = 'Hello';
+router.get("/todos", (req, res) => {
+  const page = "Hello";
   res.end(page);
   return res.status(200);
 });
 
-router.post('/todos', multipartMiddleware,(req,res) => {
+router.post("/todos", multipartMiddleware, (req, res) => {
   console.log(req.body);
   var username = req.body.username;
   var item = req.body.item;
-  for(var i=0;i<users.length;i++){
-    if(username == users[i].username){
+  for (var i = 0; i < users.length; i++) {
+    if (username == users[i].username) {
       users[i].todos.push(item);
       console.log(users[i]);
       break;
@@ -36,50 +35,48 @@ router.post('/todos', multipartMiddleware,(req,res) => {
   return res.status(200);
 });
 
-router.post('/signin',multipartMiddleware, (req, res) => {
+router.post("/signin", multipartMiddleware, (req, res) => {
   console.log(req.body);
   var username = req.body.username;
   var password = req.body.password;
   //password = md5(password);
   let flag = false;
   users.forEach(user => {
-    if(username === user.username){
-      if(password == user.password){
+    if (username === user.username) {
+      if (password == user.password) {
         flag = 1;
         return;
       }
     }
   });
-  if(flag == true){
-    res.send('login success');
-  }
-  else{
-    res.end('login fail,please check the username or password!')
+  if (flag == true) {
+    res.send("login success");
+  } else {
+    res.end("login fail,please check the username or password!");
   }
   return res.status(200);
 });
 
-router.post('/signup',multipartMiddleware, (req, res) => {
+router.post("/signup", multipartMiddleware, (req, res) => {
   var username = req.body.username;
   var password = req.body.password;
   let flag = false;
   users.forEach(user => {
-    if(username === user.username){
+    if (username === user.username) {
       flag = true;
       return;
     }
   });
-  if( flag == true){
+  if (flag == true) {
     res.send("user has registerd, please sign in");
-  }
-  else{
+  } else {
     //password = md5(password);
     var userId = uuid.v1();
     var todos = [];
     var completes = [];
-    users.push({userId, username, password, todos, completes});
+    users.push({ userId, username, password, todos, completes });
     console.log(users);
-    res.send('success, please login');
+    res.send("success, please login");
   }
   return res.status(200);
 });
